@@ -88,6 +88,20 @@ func WriteMsg(msg string) {
 	sql := "insert into message(message_board) values(?)"
 	d.db.Exec(sql, msg)
 }
+func Is_qd(uid string) bool {
+	sql := "SELECT id FROM `sign_in` WHERE uid =? and datetime >= ?"
+	datetime := time.Now().Format("2006-01-02")
+	var id int
+	err := d.db.QueryRow(sql, uid, datetime).Scan(&id)
+	if err != nil {
+		return true
+	}
+	else return false
+}
 
+func Sign_in(uid string){
+	sql := "insert into sign_in(uid) values(?)"
+	_, _ := d.db.Exec(sql, uid)
+}
 
 

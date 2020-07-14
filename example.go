@@ -63,6 +63,15 @@ func main() {
 		fmt.Println(msg)
 		services.WriteMsg(msg)
 	})
+	app.Get("/api/qd/{uid: string}",func(ctx iris.Context){
+		uid := ctx.Params().Get("uid")
+		if services.Is_qd(uid){
+			services.Sign_in(uid)
+			ctx.Writef("%t", true)
+		}else{
+			ctx.Writef("%t", false)
+		}
+	})
 
 
 					    // Listens and serves incoming http requests
