@@ -4,6 +4,7 @@ import(
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 	"fmt"
+	"time"
 )
 
 var d struct {
@@ -89,19 +90,26 @@ func WriteMsg(msg string) {
 	d.db.Exec(sql, msg)
 }
 func Is_qd(uid string) bool {
+	if d.a != 1{
+		Connect()
+	}
 	sql := "SELECT id FROM `sign_in` WHERE uid =? and datetime >= ?"
 	datetime := time.Now().Format("2006-01-02")
 	var id int
 	err := d.db.QueryRow(sql, uid, datetime).Scan(&id)
 	if err != nil {
 		return true
+	} else {
+		return false
 	}
-	else return false
 }
 
 func Sign_in(uid string){
+	if d.a != 1{
+		Connect()
+	}
 	sql := "insert into sign_in(uid) values(?)"
-	_, _ := d.db.Exec(sql, uid)
+	d.db.Exec(sql, uid)
 }
 
 

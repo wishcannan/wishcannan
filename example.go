@@ -66,14 +66,20 @@ func main() {
 	app.Get("/api/qd/{uid: string}",func(ctx iris.Context){
 		uid := ctx.Params().Get("uid")
 		if services.Is_qd(uid){
-			services.Sign_in(uid)
 			ctx.Writef("%t", true)
 		}else{
 			ctx.Writef("%t", false)
 		}
 	})
-
-
+	app.Get("/api/sign/{uid :string}",func(ctx iris.Context){
+		uid := ctx.Params().Get("uid")
+		if services.Is_qd(uid){
+			services.Sign_in(uid)
+			ctx.WriteString(uid)
+		}else{
+			ctx.WriteString(uid)
+		}
+	})
 					    // Listens and serves incoming http requests
 					        // on http://localhost:8080.
 	//app.Listen("127.0.0.1:8080")
